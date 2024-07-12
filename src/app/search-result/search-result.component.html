@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+
+<div *ngIf="artists$ | async as artists">
+    <h2 style="margin: 30px; color: white; text-align: center;">Resultados de la búsqueda</h2>
+
+    <div class="artist-list">
+        <div *ngFor="let artist of (artists$ | async)?.slice(0, 5)" class="artist-card">
+            <img [src]="artist.images.length > 0 ? artist.images[0] : 'assets/default-image.jpg'"
+                alt="{{ artist.name }}" class="artist-image" (error)="handleImageError($event)">
+            <div class="artist-details">
+                <h3>{{ artist.name }}</h3>
+                <p>Seguidores: {{ artist.followers }}</p>
+                <p>Popularidad: {{ artist.popularity }}</p>
+                <p>Géneros: {{ artist.genres.join(', ') }}</p>
+                <p><a [href]="artist.externalUrls.spotify" target="_blank">Spotify</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="artists.length === 0">
+        <p style="color: white; margin: 30px; text-align: center;">No artists found.</p>
+    </div>
+</div>
